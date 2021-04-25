@@ -5,6 +5,7 @@ const saltRounds = 10;
 const myPlaintextPassword = 's0/\/\P4$$w0rD';
 const someOtherPlaintextPassword = 'not_bacon';
 
+const jwt = require("jsonwebtoken");
 
 const UserSchema = mongoose.Schema(
     {
@@ -62,7 +63,7 @@ UserSchema.pre('save', function(next){
     //     "password":"password"
     // }
 
-    let user = this;
+    var user = this;
 
     if(user.isModified('password')){
 
@@ -81,9 +82,31 @@ UserSchema.pre('save', function(next){
         //비밀번호 변경이 아닌 경우 바로 update
         next()
     }
-
-    
 });
+
+UserSchema.methods.comparePassword = function(plainPassword, cb){
+    //plainPassword
+    bcrypt.compare(plainPassword, this.password, function(err, isMatched){
+        if(err) return cb(err)
+        cb(null, isMatched)
+    })
+}
+
+UserSchema.methods.generateToken = function(cb){
+    //jsonwebtoken
+    var user = this;
+    var token = jwt.sign(
+        user._id.toHexString(), 'secretToken'
+        // user._id + 'secretToken' -> token
+        // secretToken으로 user._id를 get
+    )
+    user.token=token;
+    user.save(function(err, user){
+        if(err) return cb(err)
+        cb(null, user)
+    })
+
+}
 
 const UserModel = mongoose.model('UserModel', UserSchema);
 module.exports = {UserModel};
