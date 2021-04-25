@@ -57,6 +57,21 @@ app.get('/auth', auth, (req,res) => {
     })
 })
 
+app.get('/logout', auth, (req,res) => {
+    UserModel.findOneAndUpdate(
+        {_id:req.userInfo._id},
+        {token: ""},
+        (err, userInfo) => {
+            if(err) return res.json({
+                success: false,
+                err
+            })
+            return res.status(200).send({
+                success:true
+            })
+        }
+    )
+})
 
 app.post('/login', (req,res) => {
     //1. 요청된 메일을 db에서 조회
