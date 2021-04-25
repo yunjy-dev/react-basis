@@ -5,7 +5,7 @@ const key = require("./configs/key");
 const {UserModel} = require("./models/UserModel");
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
-
+const {auth} = require("./middleware/auth");
 //application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({
     extended:true
@@ -45,7 +45,17 @@ app.post('/register', (req, res)=>{
     )
 })
 
+//authentication with middleware
+app.get('/auth', auth, (req,res) => {
 
+    //middleware 통과 후 도착
+    res.status(200).json({
+        _id: req.userInfo._id,
+        isAdmin: req.userInfo.role === 0 ? false: true,
+        email: req.userInfo.email,
+        name:req.userInfo.name,
+    })
+})
 
 
 app.post('/login', (req,res) => {
