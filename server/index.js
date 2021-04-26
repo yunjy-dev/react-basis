@@ -30,7 +30,11 @@ mongoose.connect(
 
 
 app.get('/', (req, res) => {
-  res.send('Hello World!!')
+  res.send('Hello World!!');
+})
+
+app.get('/api/hello', (req, res)=>{
+    res.send("Hi");
 })
 
 app.post('/register', (req, res)=>{

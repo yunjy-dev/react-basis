@@ -1,4 +1,4 @@
-import logo from './logo.svg';
+import React from 'react'
 import './App.css';
 import {
   BrowserRouter as Router,
@@ -7,12 +7,10 @@ import {
   Link
 } from "react-router-dom";
 
-import LandingPage    from "./components/views/LandingPage/LandingPage"
-import RegisterPage   from "./components/views/RegisterPage/RegisterPage"
-import LoginPage      from "./components/views/LoginPage/LoginPage"
-import AboutPage      from "./components/views/AboutPage/AboutPage"
-
-
+import LandingPage    from "./components/views/LandingPage/LandingPage";
+import RegisterPage   from "./components/views/RegisterPage/RegisterPage";
+import LoginPage      from "./components/views/LoginPage/LoginPage";
+import AboutPage      from "./components/views/AboutPage/AboutPage";
 
 function App() {
   return (
